@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
+const { ENUM_ROLES, USER } = require('../const/user.const');
 
-// TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
     email: {
@@ -16,15 +16,40 @@ const userSchema = new Schema(
     },
     name: {
       type: String,
+      trim: true,
       required: [true, "Name is required."],
     },
+    surname: {
+      type: String,
+      required: [true, "Surname is required."],
+      trim: true,
+    },
+    birthdate: {
+      type: Date,
+      required: [true, "Date of birth is required."],
+    },
+    phoneNumber: {
+      type: Number,
+      required: [true, "Phone number is required."],
+    },
+    role: {
+      type: String,
+      enum: ENUM_ROLES,
+      trim: true,
+      default: USER
+    },
+    favourites: [{
+      title: String,
+      imageUrl: String,
+      propertyId: String
+    }]
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
+    versionKey: false
   }
 );
 
-const User = model("User", userSchema);
+const UserModel = model("User", userSchema);
 
-module.exports = User;
+module.exports = UserModel;
